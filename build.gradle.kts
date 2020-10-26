@@ -35,6 +35,7 @@ ext {
 extra["springCloudVersion"] = "Hoxton.SR8"
 
 dependencies {
+	implementation("org.springframework.boot:spring-boot-starter-data-redis-reactive")
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-hateoas")
@@ -49,11 +50,15 @@ dependencies {
 	implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
 	implementation("org.springframework.cloud:spring-cloud-starter-oauth2")
 	implementation("org.springframework.kafka:spring-kafka")
+	implementation("junit:junit:4.12")
+	compile(group = "it.ozimov", name = "embedded-redis", version = "0.7.2")
+	compile(group = "org.modelmapper", name = "modelmapper", version = "2.3.6")
 	compileOnly("org.projectlombok:lombok")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly("com.h2database:h2")
 	runtimeOnly("mysql:mysql-connector-java")
 	annotationProcessor("org.projectlombok:lombok")
+
 	testImplementation("org.springframework.boot:spring-boot-starter-test") {
 		exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
 	}

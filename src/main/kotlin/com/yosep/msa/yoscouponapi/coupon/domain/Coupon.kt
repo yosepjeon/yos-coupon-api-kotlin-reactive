@@ -1,5 +1,7 @@
 package com.yosep.msa.yoscouponapi.coupon.domain
 
+import com.yosep.msa.yoscouponapi.stock.domain.Stock
+import lombok.EqualsAndHashCode
 import lombok.Getter
 import lombok.Setter
 import lombok.ToString
@@ -11,9 +13,11 @@ import javax.validation.constraints.NotNull
 @Getter
 @Setter
 @ToString
+@Table(name = "yos_coupon")
+@EqualsAndHashCode(of = ["couponId"], callSuper = false)
 class Coupon(
         @Id
-        val id:String,
+        val couponId:String,
 
         @NotNull
         @Column(nullable = false)
@@ -27,6 +31,10 @@ class Coupon(
         @Enumerated(EnumType.STRING)
         @Column(length = 10, nullable = false)
         val state: CouponState,
+
+        @OneToOne(cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+        @JoinColumn(name = "stockId")
+        val stock: Stock,
 
         createdDate: LocalDateTime,
         lastModifiedBy: LocalDateTime

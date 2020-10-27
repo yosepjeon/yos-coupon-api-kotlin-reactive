@@ -8,18 +8,41 @@ import org.springframework.data.redis.connection.ReactiveRedisConnectionFactory
 import org.springframework.data.redis.connection.lettuce.LettuceClientConfiguration
 import org.springframework.data.redis.core.ReactiveRedisTemplate
 import org.springframework.data.redis.core.ReactiveStringRedisTemplate
-import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer
-import org.springframework.data.redis.serializer.RedisSerializationContext
-import org.springframework.data.redis.serializer.RedisSerializer
-import org.springframework.data.redis.serializer.StringRedisSerializer
 import io.lettuce.core.ReadFrom.REPLICA_PREFERRED
 import io.lettuce.core.TimeoutOptions
 import io.lettuce.core.cluster.ClusterClientOptions
 import io.lettuce.core.cluster.ClusterTopologyRefreshOptions
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.cache.annotation.CachingConfigurerSupport
+import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory
+import org.springframework.data.redis.core.RedisTemplate
+import org.springframework.data.redis.serializer.*
 import java.time.Duration
 
 @Configuration
-class RedisConfig {
+class RedisConfig: CachingConfigurerSupport() {
+    @Value("\${spring.redis.host}")
+    private val redisHost: String? = null
+
+    @Value("\${spring.redis.port}")
+    private val redisPort:Int = 0
+
+    @Bean("redisTemplateWithLettuce")
+    fun redisTemplateWithLettuce(
+
+    ): RedisTemplate<*, *> {
+
+        val template = RedisTemplate<String, Any>()
+        template.keySerializer = StringRedisSerializer()
+        template.valueSerializer = GenericJackson2JsonRedisSerializer()
+        template.hashKeySerializer = StringRedisSerializer()
+        template.hashValueSerializer = GenericJackson2JsonRedisSerializer()
+
+        template.setConnectionFactory(LettuceConnectionFactory(redisHost!!, redisPort))
+        template.setEnableTransactionSupport(true)
+
+        return template
+    }
 
     @Bean
     fun reactiveStringRedistemplate(connectionFactory: ReactiveRedisConnectionFactory): ReactiveStringRedisTemplate {

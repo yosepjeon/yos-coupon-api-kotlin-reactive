@@ -1,11 +1,12 @@
 package com.yosep.msa.yoscouponapi.coupon.domain
 
+
+import com.fasterxml.jackson.annotation.JsonBackReference
+import com.fasterxml.jackson.annotation.JsonManagedReference
 import com.yosep.msa.yoscouponapi.stock.domain.Stock
-import lombok.EqualsAndHashCode
-import lombok.Getter
-import lombok.Setter
-import lombok.ToString
+import lombok.*
 import java.time.LocalDateTime
+import java.util.*
 import javax.persistence.*
 import javax.validation.constraints.NotNull
 
@@ -14,31 +15,45 @@ import javax.validation.constraints.NotNull
 @Setter
 @ToString
 @Table(name = "yos_coupon")
+@Builder
 @EqualsAndHashCode(of = ["couponId"], callSuper = false)
-class Coupon(
+data class Coupon(
         @Id
-        val couponId:String,
+        var couponId:String,
 
         @NotNull
         @Column(nullable = false)
-        val name:String,
+        var name:String,
 
-        @NotNull
-        @Column(nullable = false)
-        val userId:String,
+//        @NotNull
+//        @Column(nullable = false)
+//        val userId:String,
 
         @NotNull
         @Enumerated(EnumType.STRING)
         @Column(length = 10, nullable = false)
-        val state: CouponState,
+        var state: CouponState,
 
-        @OneToOne(cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
-        @JoinColumn(name = "stockId")
-        val stock: Stock,
+        @JsonManagedReference
+        @OneToOne(mappedBy = "coupon", cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+        var stock: Stock,
 
-        createdDate: LocalDateTime,
-        lastModifiedBy: LocalDateTime
+        override var createdDate: LocalDateTime,
+        override var lastModifiedBy: LocalDateTime
 ): BaseEntity(createdDate, lastModifiedBy) {
+    constructor(){}
 
+    companion object {
+        fun of(couponDTO:CouponDTO):Coupon {
+            val coupon:Coupon = Coupon()
+            coupon.couponId = UUID.randomUUID().toString()
+            coupon.name = couponDTO.name
+            coupon.state = CouponState.ENABLE
+            coupon.createdDate = LocalDateTime.now()
+            coupon.lastModifiedBy = LocalDateTime.now()
+
+            return coupon
+        }
+    }
 
 }

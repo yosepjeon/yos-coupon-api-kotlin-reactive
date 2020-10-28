@@ -1,12 +1,16 @@
 package com.yosep.msa.yoscouponapi.stock.domain
 
+import com.fasterxml.jackson.annotation.JsonBackReference
 import com.yosep.msa.yoscouponapi.coupon.domain.BaseEntity
 import com.yosep.msa.yoscouponapi.coupon.domain.Coupon
+import com.yosep.msa.yoscouponapi.coupon.domain.CouponDTO
+import com.yosep.msa.yoscouponapi.coupon.domain.CouponState
 import lombok.EqualsAndHashCode
 import lombok.Getter
 import lombok.Setter
 import lombok.ToString
 import java.time.LocalDateTime
+import java.util.*
 import javax.persistence.*
 import javax.validation.constraints.NotNull
 
@@ -16,18 +20,32 @@ import javax.validation.constraints.NotNull
 @ToString
 @Table(name = "yos_coupon_stock")
 @EqualsAndHashCode(of = ["stockId"], callSuper = false)
-class Stock (
+data class Stock (
         @Id
-        val stockId:String,
+        var stockId:String,
 
+        @JsonBackReference
         @OneToOne(cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
-        @JoinColumn(name = "couponId")
-        val coupon: Coupon,
+        @JoinColumn(name = "coupon_id")
+        var coupon: Coupon,
 
         @NotNull
         @Column(nullable = false)
         var total:Int,
 
-        createdDate: LocalDateTime,
-        lastModifiedBy: LocalDateTime
-): BaseEntity(createdDate, lastModifiedBy)
+        override var createdDate: LocalDateTime,
+        override var lastModifiedBy: LocalDateTime
+): BaseEntity(createdDate, lastModifiedBy) {
+        constructor(){}
+
+        companion object {
+                fun of(couponDTO: CouponDTO, coupon: Coupon):Stock {
+                        val stock = Stock()
+                        stock.stockId = couponDTO.couponId + "_stock"
+                        stock.total = couponDTO.total
+                        stock.coupon = coupon
+
+                        return stock
+                }
+        }
+}

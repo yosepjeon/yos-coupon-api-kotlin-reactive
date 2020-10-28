@@ -4,6 +4,7 @@ import java.util.function.Supplier
 
 enum class CouponState(state: String) {
     WAIT("WAIT"),
-    USED("USED"),
-    EXPIRED("EXPIRED")
+    EXPIRED("EXPIRED"),
+    ENABLE("ENABLE"),
+    EMPTY("EMPTY")
 }

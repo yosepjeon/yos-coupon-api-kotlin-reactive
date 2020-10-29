@@ -19,7 +19,7 @@ class CouponScheduledService {
     @Autowired
     lateinit var reactiveRedisTemplate: ReactiveRedisTemplate<String, String>
 
-    @Scheduled(fixedDelay = 1000)
+    @Scheduled(fixedDelay = 5000)
     fun syncRedisToMysqlAboutCouponStock() {
         var coupons:List<Coupon> = couponRepository.findAll()
 

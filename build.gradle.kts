@@ -1,3 +1,4 @@
+import jdk.nashorn.internal.objects.NativeRegExp.test
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
 
@@ -9,6 +10,17 @@ plugins {
 	kotlin("jvm") version "1.3.72"
 	kotlin("plugin.spring") version "1.3.72"
 	kotlin("plugin.jpa") version "1.3.72"
+}
+
+noArg {
+	annotation("javax.persistence.Entity")
+	annotation("javax.persistence.MappedSuperclass")
+	annotation("javax.persistence.Embeddable")
+}
+allOpen {
+	annotation("javax.persistence.Entity")
+	annotation("javax.persistence.MappedSuperclass")
+	annotation("javax.persistence.Embeddable")
 }
 
 apply(plugin = "kotlin-kapt")
@@ -78,6 +90,7 @@ tasks.withType<Test> {
 	useJUnitPlatform()
 }
 
+
 tasks.withType<KotlinCompile> {
 	kotlinOptions {
 		freeCompilerArgs = listOf("-Xjsr305=strict")
@@ -87,9 +100,9 @@ tasks.withType<KotlinCompile> {
 
 
 
-//tasks.test {
-//	outputs.dir()
-//}
+tasks.test {
+	useJUnitPlatform()
+}
 //
 //tasks.asciidoctor {
 //	inputs.dir(snippetsDir)

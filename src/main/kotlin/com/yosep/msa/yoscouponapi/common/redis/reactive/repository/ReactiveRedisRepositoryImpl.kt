@@ -2,16 +2,19 @@ package com.yosep.msa.yoscouponapi.common.redis.reactive.repository
 
 import org.springframework.data.redis.core.ReactiveRedisTemplate
 import org.springframework.data.redis.core.ReactiveValueOperations
+import org.springframework.data.redis.core.RedisTemplate
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import java.time.Duration
 
 class ReactiveRedisRepositoryImpl<T,ID,V>: ReactiveRedisRepository<T, ID> {
+    private val redisTemplate:RedisTemplate<ID,V>
     private val reactiveRedisTemplate:ReactiveRedisTemplate<ID,V>
     private val reactiveValueOperations: ReactiveValueOperations<ID,V>
-    constructor(reactiveRedisTemplate: ReactiveRedisTemplate<ID, V>, reactiveValueOperations: ReactiveValueOperations<ID, V>) {
+    constructor(reactiveRedisTemplate: ReactiveRedisTemplate<ID, V>, reactiveValueOperations: ReactiveValueOperations<ID, V>, redisTemplate: RedisTemplate<ID, V>) {
         this.reactiveRedisTemplate = reactiveRedisTemplate
         this.reactiveValueOperations = reactiveValueOperations
+        this.redisTemplate = redisTemplate
     }
 
     override fun save(entity: T): Mono<Boolean> {
@@ -43,6 +46,10 @@ class ReactiveRedisRepositoryImpl<T,ID,V>: ReactiveRedisRepository<T, ID> {
     }
 
     override fun decrease(id: ID, value: Long): Mono<Long> {
+//        if(reactiveValueOperations.get(id!!).equals("0")) {
+//            return Integer.parseInt()reactiveValueOperations.get(id!!)
+//        }
+
         return reactiveValueOperations.decrement(id,value)
     }
 

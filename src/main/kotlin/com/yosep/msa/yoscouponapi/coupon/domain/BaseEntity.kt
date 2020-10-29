@@ -9,6 +9,6 @@ import javax.persistence.MappedSuperclass
 @ToString
 @Getter
 open class BaseEntity (
-        open val createdDate: LocalDateTime,
-        open val lastModifiedBy: LocalDateTime
+        open var createdDate: LocalDateTime,
+        open var lastModifiedBy: LocalDateTime
 )

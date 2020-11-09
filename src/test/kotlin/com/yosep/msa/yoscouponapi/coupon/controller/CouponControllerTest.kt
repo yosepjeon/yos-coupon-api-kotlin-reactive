@@ -3,6 +3,7 @@ package com.yosep.msa.yoscouponapi.coupon.controller
 import com.yosep.msa.yoscouponapi.common.BaseControllerTest
 import com.yosep.msa.yoscouponapi.coupon.domain.Coupon
 import com.yosep.msa.yoscouponapi.coupon.domain.CouponDTO
+import com.yosep.msa.yoscouponapi.coupon.domain.CouponForUser
 import com.yosep.msa.yoscouponapi.coupon.service.CouponService
 import org.junit.jupiter.api.*
 
@@ -26,10 +27,10 @@ internal class CouponControllerTest: BaseControllerTest() {
     }
 
     @Test
-    @DisplayName(value = "")
+    @DisplayName(value = "model mapper 테스트")
     fun modelMapperTest() {
         val couponDTO = CouponDTO("coupon-test1", 1)
-        val coupon:Coupon = modelMapper.map(couponDTO, Coupon::class.java)
+        val coupon:Coupon = modelMapper.map(couponDTO, CouponForUser::class.java)
 
         println(couponDTO.toString())
         println(coupon.toString())

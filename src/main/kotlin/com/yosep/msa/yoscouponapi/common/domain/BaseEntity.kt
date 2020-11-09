@@ -1,8 +1,10 @@
 package com.yosep.msa.yoscouponapi.common.domain
 
 import java.time.LocalDateTime
+import javax.persistence.MappedSuperclass
 
-open class BaseEntity (){
-    open val createdDate: LocalDateTime? = null
-    open var updatedDate: LocalDateTime? = null
+@MappedSuperclass
+abstract class BaseEntity {
+    abstract val createdDate: LocalDateTime
+    abstract var lastModifiedDate: LocalDateTime
 }

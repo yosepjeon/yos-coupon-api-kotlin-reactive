@@ -8,33 +8,38 @@ import javax.persistence.*
 import javax.validation.constraints.NotNull
 
 @Entity
-@Table(name="yos_coupon")
-data class Coupon(
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn
+abstract class Coupon(
         @Id
         val couponId: String,
 
         @NotNull
         @Column(nullable = false)
-        var name:String,
+        var couponName:String,
 
         @NotNull
         @Enumerated(EnumType.STRING)
         @Column(length = 10, nullable = false)
-        var state:CouponState,
+        var couponState:CouponState,
+
+//        @Enumerated(EnumType.STRING)
+//        @Column(nullable = true)
+//        var couponType
 
 //        @JsonManagedReference
 //        @OneToOne
 //        var stock: Stock,
 
-        @Column(nullable = false)
-        var total:Int,
+//        @Column(nullable = false)
+//        open var total:Int,
 
         @Column(nullable = false)
-        val createdDate:LocalDateTime,
+        override val createdDate:LocalDateTime,
 
         @Column(nullable = false)
-        var lastModifiedDate: LocalDateTime
+        override var lastModifiedDate: LocalDateTime
 
-){
+): BaseEntity() {
 
 }

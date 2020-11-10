@@ -2,10 +2,12 @@ package com.yosep.msa.yoscouponapi.coupon.controller
 
 import com.yosep.msa.yoscouponapi.coupon.domain.Coupon
 import com.yosep.msa.yoscouponapi.coupon.domain.CouponDTO
+import com.yosep.msa.yoscouponapi.coupon.domain.CouponDtoToCreate
 import com.yosep.msa.yoscouponapi.coupon.domain.resource.CouponResource
 import com.yosep.msa.yoscouponapi.coupon.service.CouponService
 import org.modelmapper.ModelMapper
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.hateoas.Link
 import org.springframework.hateoas.MediaTypes
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder
 import org.springframework.http.ResponseEntity
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import java.net.URI
 import javax.validation.Valid
 
 @RestController
@@ -33,12 +36,22 @@ class CouponController {
     }
 
     @PostMapping(value = ["/"])
-    fun createCoupon(@RequestBody @Valid couponDTO: CouponDTO, errors:Errors) {
-//        if(errors.hasErrors()) {
-//            return badRequest(errors)
-//        }
+    fun createCoupon(@RequestBody @Valid couponDTO: CouponDtoToCreate, errors:Errors): ResponseEntity<Any> {
+        if(errors.hasErrors()) {
+            return badRequest(errors)
+        }
 
-//        System.out.println(coupon.toString());
+        var createdCoupon = couponService.createCouponForUser(couponDTO)
+        couponResource = CouponResource(createdCoupon)
+        couponResource
+                .add(controllerLinkBuilder.withRel("get-coupons"))
+                .add(controllerLinkBuilder.slash(createdCoupon.couponId).withRel("get-coupon"))
+                .add(controllerLinkBuilder.slash(createdCoupon.couponId).withRel("patch-coupon"))
+                .add(controllerLinkBuilder.slash(createdCoupon.couponId).withRel("put-coupon"))
+                .add(Link.of("/docs/index.html#create-coupon").withRel("profile"))
+
+        var createdURI: URI = controllerLinkBuilder.slash(createdCoupon.couponId).toUri()
+        return ResponseEntity.created(createdURI).body(couponResource)
     }
 
     private fun badRequest(errors: Errors): ResponseEntity<Any> {

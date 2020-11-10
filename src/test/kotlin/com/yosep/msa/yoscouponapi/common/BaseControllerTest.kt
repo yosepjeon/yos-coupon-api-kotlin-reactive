@@ -21,7 +21,7 @@ import javax.transaction.Transactional
 @AutoConfigureRestDocs
 @Transactional
 @Import(RestDocsConfiguration::class) // 다른 스프링 빈 설정파일을 읽어와서 사용하는 방법 중 하나.
-@ActiveProfiles("test") // test환경에서 확인하겠다는 의미.
+@ActiveProfiles("dev") // test환경에서 확인하겠다는 의미.
 @Ignore // 테스트를 실행하지 않겠다는 의미
 class BaseControllerTest {
     @Autowired

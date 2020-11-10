@@ -40,6 +40,9 @@ extra["snippetsDir"] = file("build/generated-snippets")
 extra["springCloudVersion"] = "Hoxton.SR8"
 
 dependencies {
+	asciidoctor("org.springframework.restdocs:spring-restdocs-asciidoctor:2.0.2.RELEASE")
+	testCompileOnly("org.springframework.restdocs:spring-restdocs-mockmvc:2.0.2.RELEASE")
+
 	implementation("com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.6.1")
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -71,6 +74,7 @@ dependencies {
 	testImplementation("io.projectreactor:reactor-test")
 	testImplementation("org.springframework.kafka:spring-kafka-test")
 	testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
+	testImplementation("org.springframework.security:spring-security-test")
 }
 
 dependencyManagement {

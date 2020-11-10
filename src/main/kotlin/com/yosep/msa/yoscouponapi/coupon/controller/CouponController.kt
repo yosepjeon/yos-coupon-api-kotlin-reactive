@@ -38,9 +38,7 @@ class CouponController {
 //            return badRequest(errors)
 //        }
 
-        var coupon = modelMapper.map(couponDTO, Coupon::class.java)
-
-        System.out.println(coupon.toString());
+//        System.out.println(coupon.toString());
     }
 
     private fun badRequest(errors: Errors): ResponseEntity<Any> {

@@ -1,12 +1,13 @@
 package com.yosep.msa.yoscouponapi.coupon.service
 
-import com.yosep.msa.yoscouponapi.coupon.domain.Coupon
-import com.yosep.msa.yoscouponapi.coupon.domain.CouponDTO
+import com.yosep.msa.yoscouponapi.coupon.domain.*
 import com.yosep.msa.yoscouponapi.coupon.repository.CouponRepository
 import lombok.extern.slf4j.Slf4j
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.LocalDateTime
+import java.util.*
 
 @Slf4j
 @Service
@@ -20,9 +21,24 @@ class CouponService {
     }
 
     @Transactional(readOnly = false)
-    public fun create(couponDTO:CouponDTO) {
-//        var coupon =
+    public fun createCouponForUser(couponDTO:CouponDtoToCreate): CouponForUser {
+        var couponId:String
+        var findedCoupon: Optional<Coupon>
 
-//        return Coupon("1")
+        do {
+            couponId = "coupon_" + UUID.randomUUID()
+            var findedCoupon = couponRepository.findById(couponId)
+        }while (!findedCoupon.isEmpty)
+
+        var coupon = CouponForUser(
+                couponId,
+                couponDTO.couponName,
+                CouponState.START,
+                couponDTO.total,
+                LocalDateTime.now(),
+                LocalDateTime.now()
+        )
+
+        return couponRepository.save(coupon)
     }
 }

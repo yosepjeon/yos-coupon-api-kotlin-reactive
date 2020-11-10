@@ -4,7 +4,7 @@ import javax.validation.Valid
 import javax.validation.constraints.Min
 import javax.validation.constraints.NotNull
 
-data class CouponDTO (
+data class CouponDtoToCreate (
     @NotNull
     var couponName:String,
 

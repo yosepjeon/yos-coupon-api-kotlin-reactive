@@ -16,12 +16,12 @@ import javax.transaction.Transactional
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores::class)
 @RunWith(SpringRunner::class)
+@Rollback(value= true)
 @SpringBootTest
 class CouponRepositoryTest(@Autowired
                            var couponRepository: CouponRepository) {
 
     @Test
-    @Rollback(value = true)
     @DisplayName(value="coupon 생성 repository 테스트")
     fun createCouponTest() {
         var coupon = CouponForUser(

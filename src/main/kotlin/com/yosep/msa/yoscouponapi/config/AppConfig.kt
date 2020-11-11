@@ -1,6 +1,7 @@
 package com.yosep.msa.yoscouponapi.config
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.KotlinModule
 import org.modelmapper.ModelMapper
 import org.springframework.cloud.client.loadbalancer.LoadBalanced
 import org.springframework.context.annotation.Bean
@@ -22,6 +23,6 @@ class AppConfig {
 
     @Bean
     fun objectMapper(): ObjectMapper {
-        return ObjectMapper()
+        return ObjectMapper().registerModule(KotlinModule())
     }
 }

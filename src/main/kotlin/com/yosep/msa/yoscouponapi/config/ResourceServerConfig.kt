@@ -20,6 +20,7 @@ class ResourceServerConfig : ResourceServerConfigurerAdapter() {
                 .anonymous()
                 .and()
                 .authorizeRequests()
+                .mvcMatchers(HttpMethod.POST).permitAll()
                 .mvcMatchers(HttpMethod.GET,"/h2-console").permitAll()
                 .mvcMatchers(HttpMethod.GET, "/api/coupons").permitAll() //				.mvcMatchers(HttpMethod.GET,"/user/test")
                 //					.anonymous()

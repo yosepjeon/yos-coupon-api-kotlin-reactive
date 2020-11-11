@@ -40,6 +40,8 @@ extra["snippetsDir"] = file("build/generated-snippets")
 extra["springCloudVersion"] = "Hoxton.SR8"
 
 dependencies {
+	compileOnly("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.+")
+
 	asciidoctor("org.springframework.restdocs:spring-restdocs-asciidoctor:2.0.2.RELEASE")
 	testCompileOnly("org.springframework.restdocs:spring-restdocs-mockmvc:2.0.2.RELEASE")
 

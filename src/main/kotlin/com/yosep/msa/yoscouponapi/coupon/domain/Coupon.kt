@@ -6,6 +6,7 @@ import com.yosep.msa.yoscouponapi.stock.domain.Stock
 import java.time.LocalDateTime
 import javax.persistence.*
 import javax.validation.constraints.NotNull
+import kotlin.jvm.Transient
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)

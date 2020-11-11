@@ -7,7 +7,7 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "yoggaebi_coupon_for_user")
-data class CouponForUser(
+class CouponForUser(
         override val couponId: String,
         override var couponName: String,
         override var couponState: CouponState,

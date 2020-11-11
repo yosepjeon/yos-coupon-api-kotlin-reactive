@@ -20,7 +20,7 @@ import java.net.URI
 import javax.validation.Valid
 
 @RestController
-@RequestMapping(value = ["/api/coupons"], produces = [MediaTypes.HAL_JSON_VALUE])
+@RequestMapping(value = ["/api/coupons"], produces = [MediaTypes.HAL_JSON_VALUE + ";charset=UTF-8"])
 class CouponController {
     var couponService: CouponService
     var modelMapper: ModelMapper
@@ -35,7 +35,7 @@ class CouponController {
         this.controllerLinkBuilder = WebMvcLinkBuilder.linkTo(CouponController::class.java)
     }
 
-    @PostMapping(value = ["/"])
+    @PostMapping
     fun createCoupon(@RequestBody @Valid couponDTO: CouponDtoToCreate, errors:Errors): ResponseEntity<Any> {
         if(errors.hasErrors()) {
             return badRequest(errors)
@@ -50,7 +50,13 @@ class CouponController {
                 .add(controllerLinkBuilder.slash(createdCoupon.couponId).withRel("put-coupon"))
                 .add(Link.of("/docs/index.html#create-coupon").withRel("profile"))
 
+
         var createdURI: URI = controllerLinkBuilder.slash(createdCoupon.couponId).toUri()
+
+        println("@@@@@@@@@")
+//        println(ResponseEntity.created(createdURI).body(couponResource.toString()))
+        println(couponResource)
+
         return ResponseEntity.created(createdURI).body(couponResource)
     }
 

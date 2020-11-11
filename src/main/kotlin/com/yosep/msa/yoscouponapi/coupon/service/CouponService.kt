@@ -27,7 +27,7 @@ class CouponService {
 
         do {
             couponId = "coupon_" + UUID.randomUUID()
-            var findedCoupon = couponRepository.findById(couponId)
+            findedCoupon = couponRepository.findById(couponId)
         }while (!findedCoupon.isEmpty)
 
         var coupon = CouponForUser(

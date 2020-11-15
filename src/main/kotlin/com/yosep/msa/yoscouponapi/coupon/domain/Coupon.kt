@@ -1,5 +1,6 @@
 package com.yosep.msa.yoscouponapi.coupon.domain
 
+import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.annotation.JsonManagedReference
 import com.yosep.msa.yoscouponapi.common.domain.BaseEntity
 import com.yosep.msa.yoscouponapi.stock.domain.Stock
@@ -32,13 +33,20 @@ abstract class Coupon(
 //        @OneToOne
 //        var stock: Stock,
 
-//        @Column(nullable = false)
-//        open var total:Int,
+        @Column(nullable = false)
+        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+        var startDate:LocalDateTime,
 
         @Column(nullable = false)
+        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+        var endDate: LocalDateTime,
+
+        @Column(nullable = false)
+        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
         override val createdDate:LocalDateTime,
 
         @Column(nullable = false)
+        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
         override var lastModifiedDate: LocalDateTime
 
 ): BaseEntity() {

@@ -70,7 +70,8 @@ class CouponRepositoryTest(
     }
 
     @Test
-    fun test1() {
+    @DisplayName(value = "문자열 LocalDateTime 변환 테스트")
+    fun parseStringToLocalDateTimeTest() {
         println(LocalDateTime.parse("2016-10-31 23:59:59", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
 
     }

@@ -64,6 +64,7 @@ dependencies {
 	implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
 	implementation("org.springframework.kafka:spring-kafka")
 	implementation("junit:junit:4.12")
+	implementation(group="com.fasterxml.jackson.datatype", name= "jackson-datatype-jsr310", version = "2.10.1")
 	compileOnly("org.projectlombok:lombok")
 	implementation(group= "org.modelmapper", name= "modelmapper", version= "2.3.6")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")

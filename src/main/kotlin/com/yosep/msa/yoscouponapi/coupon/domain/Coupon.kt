@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.annotation.JsonManagedReference
 import com.yosep.msa.yoscouponapi.common.domain.BaseEntity
 import com.yosep.msa.yoscouponapi.stock.domain.Stock
+import org.springframework.format.annotation.DateTimeFormat
 import java.time.LocalDateTime
 import javax.persistence.*
 import javax.validation.constraints.NotNull
@@ -34,19 +35,23 @@ abstract class Coupon(
 //        var stock: Stock,
 
         @Column(nullable = false)
-        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+        @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+//        @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", locale = "Asia/Seoul")
         var startDate:LocalDateTime,
 
         @Column(nullable = false)
-        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+        @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+//        @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", locale = "Asia/Seoul")
         var endDate: LocalDateTime,
 
         @Column(nullable = false)
-        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+        @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+//        @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", locale = "Asia/Seoul")
         override val createdDate:LocalDateTime,
 
         @Column(nullable = false)
-        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+        @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+//        @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", locale = "Asia/Seoul")
         override var lastModifiedDate: LocalDateTime
 
 ): BaseEntity() {

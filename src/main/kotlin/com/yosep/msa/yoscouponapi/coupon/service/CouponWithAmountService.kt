@@ -38,7 +38,7 @@ class CouponWithAmountService {
     * 5.해당 쿠폰 객체를 DB에 저장한다.
      */
     @Transactional(readOnly = false)
-    public fun createCouponWithAmount(couponDTO: CouponWithAmountToCreateDto): Coupon {
+    public fun create(couponDTO: CouponWithAmountToCreateDto): CouponWithAmount {
         var couponId: String
         var findedCoupon: Optional<Coupon>
 
@@ -62,7 +62,7 @@ class CouponWithAmountService {
     }
 
     @Transactional(readOnly = false)
-    public fun updateCouponWithAmount(couponWithAmountToUpdateDto: CouponWithAmountToUpdateDto): Coupon {
+    public fun update(couponWithAmountToUpdateDto: CouponWithAmountToUpdateDto): CouponWithAmount {
         val couponId = couponWithAmountToUpdateDto.couponId
         var findedCouponOptional = couponWithAmountRepository.findById(couponId)
 
@@ -83,6 +83,11 @@ class CouponWithAmountService {
         findedCoupon.endDate = LocalDateTime.parse(couponWithAmountToUpdateDto.endDate,DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
 
         return couponWithAmountRepository.save(findedCoupon)
+    }
+
+    @Transactional(readOnly = false)
+    public fun deleteById(couponId:String) {
+        couponWithAmountRepository.deleteById(couponId)
     }
 
     public fun syncRedisToDataBase() {

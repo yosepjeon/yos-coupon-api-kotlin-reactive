@@ -2,6 +2,7 @@ package com.yosep.msa.yoscouponapi.coupon.domain.withAmount
 
 import com.yosep.msa.yoscouponapi.coupon.domain.Coupon
 import com.yosep.msa.yoscouponapi.coupon.domain.CouponState
+import org.springframework.format.annotation.DateTimeFormat
 import java.time.LocalDateTime
 import javax.persistence.Column
 import javax.persistence.Entity

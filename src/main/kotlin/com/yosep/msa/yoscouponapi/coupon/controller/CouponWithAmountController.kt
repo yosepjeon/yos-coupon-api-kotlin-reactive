@@ -13,7 +13,9 @@ import org.springframework.http.ResponseEntity
 import org.springframework.validation.Errors
 import org.springframework.web.bind.annotation.*
 import java.net.URI
+import java.util.*
 import javax.validation.Valid
+import kotlin.collections.HashMap
 
 @RestController
 @RequestMapping(value = ["/api/coupons"], produces = [MediaTypes.HAL_JSON_VALUE + ";charset=UTF-8"])
@@ -31,6 +33,30 @@ class CouponWithAmountController {
         this.controllerLinkBuilder = WebMvcLinkBuilder.linkTo(CouponWithAmountController::class.java)
     }
 
+    @GetMapping("/{couponId}")
+    fun findCouponById(@PathVariable("couponId") couponId:String):ResponseEntity<Any> {
+        val findedCoupon = couponWithAmountService.findCouponById(couponId)
+
+        if(findedCoupon.isEmpty) {
+            return ResponseEntity.notFound().build()
+        }else {
+            var couponId = findedCoupon.get().couponId
+            println("finded coupon = $findedCoupon")
+            couponResource = CouponResource(findedCoupon.get())
+            couponResource
+//                    .add(controllerLinkBuilder.withRel("get-coupon"))
+                    .add(controllerLinkBuilder.slash(couponId).withRel("create-coupon"))
+                    .add(controllerLinkBuilder.slash(couponId).withRel("get-coupons"))
+                    .add(controllerLinkBuilder.slash(couponId).withRel("get-coupon"))
+                    .add(controllerLinkBuilder.slash(couponId).withRel("patch-coupon"))
+                    .add(controllerLinkBuilder.slash(couponId).withRel("put-coupon"))
+                    .add(controllerLinkBuilder.slash(couponId).withRel("delete-coupon"))
+                    .add(Link.of("/docs/index.html#get-coupon").withRel("profile"))
+
+            return ResponseEntity.ok().body(couponResource)
+        }
+    }
+
     @PostMapping
     fun createCoupon(@RequestBody @Valid couponDTO: CouponWithAmountToCreateDto, errors:Errors): ResponseEntity<Any> {
         if(errors.hasErrors()) {
@@ -40,10 +66,13 @@ class CouponWithAmountController {
         var createdCoupon = couponWithAmountService.create(couponDTO)
         couponResource = CouponResource(createdCoupon)
         couponResource
-                .add(controllerLinkBuilder.withRel("get-coupons"))
+//                .add(controllerLinkBuilder.withRel("create-coupon"))
+                .add(controllerLinkBuilder.slash(createdCoupon.couponId).withRel("create-coupon"))
+                .add(controllerLinkBuilder.slash(createdCoupon.couponId).withRel("get-coupons"))
                 .add(controllerLinkBuilder.slash(createdCoupon.couponId).withRel("get-coupon"))
                 .add(controllerLinkBuilder.slash(createdCoupon.couponId).withRel("patch-coupon"))
                 .add(controllerLinkBuilder.slash(createdCoupon.couponId).withRel("put-coupon"))
+                .add(controllerLinkBuilder.slash(createdCoupon.couponId).withRel("delete-coupon"))
                 .add(Link.of("/docs/index.html#create-coupon").withRel("profile"))
 
 
@@ -61,11 +90,14 @@ class CouponWithAmountController {
         var updatedCoupon = couponWithAmountService.update(couponWithAmountToUpdateDto)
         couponResource = CouponResource(updatedCoupon)
         couponResource
-                .add(controllerLinkBuilder.withRel("get-coupons"))
+//                .add(controllerLinkBuilder.withRel("patch-coupon"))
+                .add(controllerLinkBuilder.slash(updatedCoupon.couponId).withRel("create-coupon"))
+                .add(controllerLinkBuilder.slash(updatedCoupon.couponId).withRel("get-coupons"))
                 .add(controllerLinkBuilder.slash(updatedCoupon.couponId).withRel("get-coupon"))
                 .add(controllerLinkBuilder.slash(updatedCoupon.couponId).withRel("patch-coupon"))
                 .add(controllerLinkBuilder.slash(updatedCoupon.couponId).withRel("put-coupon"))
-                .add(Link.of("/docs/index.html#create-coupon").withRel("profile"))
+                .add(controllerLinkBuilder.slash(updatedCoupon.couponId).withRel("delete-coupon"))
+                .add(Link.of("/docs/index.html#patch-coupon").withRel("profile"))
 
         return ResponseEntity.ok(couponResource)
     }
@@ -76,7 +108,7 @@ class CouponWithAmountController {
             couponWithAmountService.deleteById(couponId)
             var map:MutableMap<String, Any> = HashMap()
             map.put("couponId", couponId)
-            return ResponseEntity.ok(map)
+            return ResponseEntity.ok().build()
         }catch (e: Exception) {
             return ResponseEntity.notFound().build()
         }

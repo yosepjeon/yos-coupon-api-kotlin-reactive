@@ -29,6 +29,10 @@ class CouponWithAmountService {
         this.couponWithAmountRepository = couponWithAmountRepository
     }
 
+    public fun findCouponById(couponId: String):Optional<CouponWithAmount> {
+        return couponWithAmountRepository.findById(couponId)
+    }
+
     /*
     * logic
     * 1.쿠폰 id를 생성한다.

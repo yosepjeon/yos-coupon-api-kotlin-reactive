@@ -8,4 +8,5 @@ import org.springframework.context.annotation.PropertySource
 @Profile(value= ["prod"])
 @PropertySource("classpath:prod/application.properties")
 class ProfileProd {
+    //
 }
